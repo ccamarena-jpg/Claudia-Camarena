@@ -31,7 +31,9 @@ const INITIAL_MASTER_STORES: StoreMaster[] = [
   { id: 's-t6', name: 'TAMBO - SANLUIS-C26', address: 'AV. SAN LUIS 2622 _ SAN BORJA', district: 'SAN BORJA', city: 'Lima', location: { lat: -12.10128, lng: -76.9947 } },
   { id: 's-t7', name: 'TAMBO - TDA SAN BORJA', address: 'AV SAN BORJA 996 (PRIMER PISO)', district: 'SAN BORJA', city: 'Lima', location: { lat: -12.09329, lng: -76.99586 } },
   { id: 's-on1', name: 'OXXO - NORTE', address: 'Av. Aviación 2699 – San Borja', district: 'SAN BORJA', city: 'Lima', location: { lat: -12.0939721, lng: -77.0025322 } },
-  { id: 's-r1', name: 'REPSOL - EL AVION', address: 'AV. AVIACIÓN 3401', district: 'SAN BORJA', city: 'Lima', location: { lat: -12.1054831, lng: -77.0007611 } }
+  { id: 's-r1', name: 'REPSOL - EL AVION', address: 'AV. AVIACIÓN 3401', district: 'SAN BORJA', city: 'Lima', location: { lat: -12.1054831, lng: -77.0007611 } },
+  { id: 's-r2', name: 'REPSOL - PRIMAVERA', address: 'Av. Primavera 1230', district: 'SAN BORJA', city: 'Lima', location: { lat: -12.1124, lng: -76.9854 } },
+  { id: 's-ox2', name: 'OXXO - AVIACION', address: 'Av. Aviacion 3120', district: 'SAN BORJA', city: 'Lima', location: { lat: -12.1023, lng: -77.0012 } }
 ];
 
 const INITIAL_AUDITS: POSAudit[] = [

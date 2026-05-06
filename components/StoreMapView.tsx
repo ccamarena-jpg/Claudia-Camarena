@@ -9,8 +9,8 @@ interface StoreMapViewProps {
   title: string;
 }
 
-const API_KEY = process.env.GOOGLE_MAPS_PLATFORM_KEY || '';
-const hasValidKey = Boolean(API_KEY) && API_KEY !== 'YOUR_API_KEY';
+const API_KEY = (import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string) || '';
+const hasValidKey = Boolean(API_KEY) && API_KEY.length > 10;
 
 const MarkerWithInfo = ({ position, title, subtitle }: { position: google.maps.LatLngLiteral, title: string, subtitle?: string }) => {
   const [open, setOpen] = useState(false);
@@ -20,14 +20,14 @@ const MarkerWithInfo = ({ position, title, subtitle }: { position: google.maps.L
       position={position}
       onClick={() => setOpen(true)}
     >
-      <Pin background="#2563eb" glyphColor="#fff" borderColor="#1e3a5f" scale={1.2} />
+      <Pin background={subtitle?.includes('TAMBO') ? "#f59e0b" : "#2563eb"} glyphColor="#fff" borderColor="#fff" scale={1.2} />
       {open && (
         <InfoWindow position={position} onCloseClick={() => setOpen(false)}>
-          <div className="p-1 min-w-[100px]">
+          <div className="p-2 min-w-[120px]">
             <div className="text-[10px] font-black uppercase text-slate-900 border-b border-slate-100 pb-1 mb-1">{title}</div>
-            {subtitle && <div className="text-[8px] font-bold text-slate-500 uppercase leading-tight">{subtitle}</div>}
-            <div className="mt-2 text-[7px] font-black text-blue-600 uppercase flex items-center gap-1">
-              <Navigation size={8} /> CLICK PARA NAVEGAR
+            {subtitle && <div className="text-[8px] font-bold text-slate-500 uppercase leading-tight mb-2">{subtitle}</div>}
+            <div className="text-[7px] font-black text-blue-600 uppercase flex items-center gap-1 bg-blue-50 p-1 rounded">
+              <Navigation size={8} /> GOOGLE MAPS
             </div>
           </div>
         </InfoWindow>
