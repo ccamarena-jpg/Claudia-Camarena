@@ -83,7 +83,6 @@ const Dashboard: React.FC<DashboardProps> = ({ audits }) => {
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         <div>
           <h1 className="text-3xl font-black uppercase text-slate-900 tracking-tighter">Performance Trade Marketing</h1>
-          <p className="text-sm font-bold text-slate-400 mt-1 uppercase tracking-widest">Mayo 2024 • Análisis Ejecutivo</p>
         </div>
         <div className="flex bg-white p-2 rounded-2xl border border-slate-100 shadow-sm divide-x divide-slate-100 font-black uppercase">
            <div className="px-6 py-2">

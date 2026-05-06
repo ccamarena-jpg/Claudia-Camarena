@@ -9,8 +9,8 @@ interface StoreMapViewProps {
   title: string;
 }
 
-const API_KEY = (process.env.VITE_GOOGLE_MAPS_API_KEY as string) || '';
-const hasValidKey = Boolean(API_KEY) && API_KEY.length > 8;
+const API_KEY = (import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string) || (process.env.VITE_GOOGLE_MAPS_API_KEY as string) || '';
+const hasValidKey = Boolean(API_KEY) && API_KEY.length > 10;
 
 const MarkerWithInfo = ({ position, title, subtitle }: { position: google.maps.LatLngLiteral, title: string, subtitle?: string }) => {
   const [open, setOpen] = useState(false);
@@ -79,45 +79,36 @@ const StoreMapView: React.FC<StoreMapViewProps> = ({ stores, title }) => {
               </Map>
             </APIProvider>
           ) : (
-            <div className="flex flex-col items-center justify-center h-full p-8 text-center bg-slate-50">
-              <MapIcon size={40} className="text-slate-300 mb-4" />
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest max-w-[200px]">
-                Google Maps API Key no detectada. Por favor configure GOOGLE_MAPS_PLATFORM_KEY en los Secrets.
-              </p>
+            <div className="w-full h-full relative group">
+              <img 
+                src="https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&q=80&w=1400" 
+                className="w-full h-full object-cover opacity-60 grayscale"
+                alt="Map Preview"
+              />
+              <div className="absolute inset-0 bg-blue-900/10 backdrop-blur-[1px]"></div>
+              
+              {/* Visual Pins for the referential view */}
+              <div className="absolute top-1/3 left-1/4 animate-bounce">
+                <div className="bg-blue-600 text-white p-2 rounded-full shadow-lg border-2 border-white"><Store size={14} /></div>
+              </div>
+              <div className="absolute top-1/2 left-1/2 animate-bounce flex flex-col items-center">
+                <div className="bg-orange-500 text-white p-2 rounded-full shadow-lg border-2 border-white"><Store size={14} /></div>
+                <div className="bg-white px-2 py-1 rounded-[4px] text-[7px] font-black mt-1 shadow-sm uppercase">Punto de Referencia</div>
+              </div>
+
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="bg-white/90 p-5 rounded-3xl shadow-2xl text-center border border-slate-100 max-w-[240px] backdrop-blur-md">
+                  <div className="w-10 h-10 bg-amber-50 text-amber-600 rounded-full flex items-center justify-center mb-3 mx-auto">
+                    <MapIcon size={20} />
+                  </div>
+                  <h2 className="text-[11px] font-black uppercase text-slate-900 mb-2 leading-tight">Configuración Requerida</h2>
+                  <p className="text-[9px] text-slate-500 uppercase font-black leading-relaxed">
+                    Añade la variable <code className="text-blue-600">GOOGLE_MAPS_PLATFORM_KEY</code> en Vercel o Settings para activar el mapa real.
+                  </p>
+                </div>
+              </div>
             </div>
           )}
-        </div>
-
-        <div className="mt-6 space-y-2">
-           {storesWithLocation.map((s, idx) => (
-             <div key={idx} className="flex items-center justify-between p-3 bg-slate-50 rounded-2xl border border-slate-100">
-               <div className="flex items-center gap-3">
-                 <div className="w-8 h-8 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center">
-                   <Navigation size={14} />
-                 </div>
-                 <div>
-                   <div className="text-[10px] font-black text-slate-900 uppercase">{'storeName' in s ? s.storeName : s.name}</div>
-                   <div className="text-[9px] font-bold text-slate-400 uppercase">
-                     Lat: {s.location?.lat.toFixed(4)} • Lng: {s.location?.lng.toFixed(4)}
-                   </div>
-                 </div>
-               </div>
-               <a 
-                 href={`https://www.google.com/maps/search/?api=1&query=${s.location?.lat},${s.location?.lng}`}
-                 target="_blank"
-                 rel="noopener noreferrer"
-                 className="p-2 bg-white text-slate-400 rounded-lg hover:text-blue-600 transition-colors"
-               >
-                 <ArrowRight size={16} />
-               </a>
-             </div>
-           ))}
-           {storesWithLocation.length === 0 && (
-             <div className="text-center py-8 bg-slate-50 rounded-3xl border border-dashed border-slate-200">
-               <Info size={32} className="mx-auto mb-2 text-slate-300" />
-               <p className="text-[10px] font-black uppercase text-slate-400">Sin coordenadas para mostrar</p>
-             </div>
-           )}
         </div>
       </div>
     </div>

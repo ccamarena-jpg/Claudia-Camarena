@@ -1,5 +1,5 @@
 {
-  "name": "Remix: AuditPOS - Gestión de Material P.O.P.",
+  "name": "RTM BAT",
   "description": "Una plataforma avanzada para auditores de trade marketing para recopilar y analizar materiales de comunicación en el punto de venta (P.O.P.), utilizando IA para el análisis de visibilidad y cumplimiento.",
   "requestFramePermissions": [
     "camera",

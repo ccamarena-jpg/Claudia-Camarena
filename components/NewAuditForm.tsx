@@ -233,7 +233,7 @@ const NewAuditForm: React.FC<NewAuditFormProps> = ({ onSave, user, prefillStore,
   return (
     <div className="animate-in slide-in-from-bottom-4 duration-500 pb-40">
       <div className="bg-[#1e3a5f] text-white p-4 flex items-center justify-between -mx-4 -mt-8 mb-6 sticky top-0 z-50 shadow-lg">
-        <div className="flex items-center gap-4"><button type="button" onClick={onCancel} className="p-1 active:scale-90 transition-transform"><ArrowLeft size={24} /></button><div><h1 className="text-lg font-black uppercase truncate max-w-[200px]">{storeName}</h1><p className="text-[10px] text-blue-300 font-bold uppercase mt-1 tracking-widest">Auditoría Trade Marketing</p></div></div>
+        <div className="flex items-center gap-4"><button type="button" onClick={onCancel} className="p-1 active:scale-90 transition-transform"><ArrowLeft size={24} /></button><div><h1 className="text-lg font-black uppercase truncate max-w-[200px]">{storeName}</h1></div></div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-12">

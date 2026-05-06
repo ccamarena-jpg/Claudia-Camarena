@@ -49,7 +49,7 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, onTabChange, user,
             <div className="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center">
               <ClipboardCheck size={24} />
             </div>
-            <span className="font-bold text-xl tracking-tight">AuditPOS</span>
+            <span className="font-bold text-xl tracking-tight">Panel de Control</span>
           </div>
 
           <nav className="flex-1 space-y-1">

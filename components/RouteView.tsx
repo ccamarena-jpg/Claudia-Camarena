@@ -52,50 +52,49 @@ const RouteView: React.FC<RouteViewProps> = ({ route, onAuditStore }) => {
       {/* MAPA DE RUTA */}
       <StoreMapView stores={route.stores} title="Mapa de Visitas Programadas" />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {route.stores.map((store) => (
           <div 
             key={store.id} 
-            className={`group bg-white rounded-3xl p-6 border-2 transition-all overflow-hidden relative ${
-              store.completed ? 'border-emerald-100 opacity-80' : 'border-white shadow-sm hover:border-blue-500 hover:shadow-xl hover:shadow-blue-900/10'
+            className={`group bg-white rounded-2xl p-4 border-2 transition-all overflow-hidden relative flex flex-col justify-between ${
+              store.completed ? 'border-emerald-100 opacity-80' : 'border-white shadow-sm hover:border-blue-500 hover:shadow-lg'
             }`}
           >
-            <div className="flex justify-between items-start mb-4">
-              <div className={`p-3 rounded-2xl ${store.completed ? 'bg-emerald-50 text-emerald-600' : 'bg-slate-50 text-slate-400'}`}>
-                <StoreIcon size={24} />
+            <div>
+              <div className="flex justify-between items-center mb-3">
+                <div className={`p-2 rounded-xl ${store.completed ? 'bg-emerald-50 text-emerald-600' : 'bg-slate-50 text-slate-400'}`}>
+                  <StoreIcon size={16} />
+                </div>
+                {store.completed ? (
+                  <div className="flex items-center gap-1 text-emerald-600 font-black text-[8px] bg-emerald-50 px-2 py-0.5 rounded-full uppercase">
+                    <CheckCircle2 size={10} /> Visitado
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-1 text-slate-400 font-black text-[8px] bg-slate-50 px-2 py-0.5 rounded-full uppercase">
+                    <Clock size={10} /> Pendiente
+                  </div>
+                )}
               </div>
-              {store.completed ? (
-                <div className="flex items-center gap-1 text-emerald-600 font-black text-[10px] bg-emerald-50 px-3 py-1 rounded-full uppercase">
-                  <CheckCircle2 size={12} /> Visitado
-                </div>
-              ) : (
-                <div className="flex items-center gap-1 text-slate-400 font-black text-[10px] bg-slate-50 px-3 py-1 rounded-full uppercase">
-                  <Clock size={12} /> Pendiente
-                </div>
-              )}
+
+              <h3 className="text-sm font-black text-slate-900 group-hover:text-blue-600 transition-colors line-clamp-1 uppercase leading-tight">{store.name}</h3>
+              <div className="flex items-start gap-1 mt-1 text-slate-500">
+                <MapPin size={12} className="mt-0.5 shrink-0" />
+                <p className="text-[10px] font-bold line-clamp-1 uppercase tracking-tight">{store.address}</p>
+              </div>
             </div>
 
-            <h3 className="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors line-clamp-1 uppercase">{store.name}</h3>
-            <div className="flex items-start gap-2 mt-2 text-slate-500 min-h-[40px]">
-              <MapPin size={16} className="mt-0.5 shrink-0" />
-              <p className="text-sm line-clamp-2 leading-relaxed uppercase">{store.address}</p>
-            </div>
-
-            <div className="mt-6 pt-6 border-t border-slate-50">
+            <div className="mt-4 pt-3 border-t border-slate-50">
               {store.completed ? (
-                <button 
-                  disabled
-                  className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-emerald-50 text-emerald-600 rounded-xl font-bold text-sm cursor-default uppercase"
-                >
-                  Auditoría Completada
-                </button>
+                <div className="w-full text-center py-2 text-emerald-600 font-black text-[10px] uppercase">
+                  Completado
+                </div>
               ) : (
                 <button 
                   onClick={() => onAuditStore(store)}
-                  className="w-full flex items-center justify-center gap-2 py-4 px-4 bg-blue-600 text-white rounded-xl font-bold text-sm hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 active:scale-95 group uppercase tracking-widest"
+                  className="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-blue-600 text-white rounded-xl font-black text-[10px] hover:bg-blue-700 transition-all shadow-md shadow-blue-200 active:scale-95 group uppercase tracking-widest"
                 >
                   Iniciar Auditoría
-                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                 </button>
               )}
             </div>
