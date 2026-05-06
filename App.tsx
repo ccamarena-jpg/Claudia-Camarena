@@ -97,19 +97,20 @@ const App: React.FC = () => {
   
   const [audits, setAudits] = useState<POSAudit[]>(() => {
     const saved = localStorage.getItem('pos_audits');
-    return saved ? JSON.parse(saved) : INITIAL_AUDITS;
+    const parsed = saved ? JSON.parse(saved) : [];
+    return parsed.length > 0 ? parsed : INITIAL_AUDITS;
   });
 
   const [routes, setRoutes] = useState<Route[]>(() => {
     const saved = localStorage.getItem('pos_routes');
-    // Si no hay rutas guardadas, cargamos la ruta de ejemplo solicitada
-    return saved ? JSON.parse(saved) : INITIAL_ROUTES;
+    const parsed = saved ? JSON.parse(saved) : [];
+    return parsed.length > 0 ? parsed : INITIAL_ROUTES;
   });
 
   const [masterStores, setMasterStores] = useState<StoreMaster[]>(() => {
     const saved = localStorage.getItem('pos_master_stores');
-    // Si no hay tiendas, cargamos las de ejemplo (Oxxo 1, Tambo 2)
-    return saved ? JSON.parse(saved) : INITIAL_MASTER_STORES;
+    const parsed = saved ? JSON.parse(saved) : [];
+    return parsed.length > 0 ? parsed : INITIAL_MASTER_STORES;
   });
 
   const [auditingStore, setAuditingStore] = useState<AssignedStore | null>(null);
