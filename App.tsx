@@ -72,13 +72,19 @@ const INITIAL_AUDITS: POSAudit[] = [
   }
 ];
 
-// Ruta solicitada para Carlos (u2)
+// Ruta solicitada para Carlos (u2) y Demo para el Administrador
 const INITIAL_ROUTES: Route[] = [
   {
     id: 'r-demo-1',
     userId: 'u2',
     date: '2024-05-12',
     stores: INITIAL_MASTER_STORES.map(s => ({ ...s, completed: false }))
+  },
+  {
+    id: 'r-demo-admin',
+    userId: 'u1',
+    date: '2024-05-12',
+    stores: INITIAL_MASTER_STORES.slice(0, 5).map(s => ({ ...s, completed: false }))
   }
 ];
 

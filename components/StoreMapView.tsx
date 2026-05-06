@@ -9,8 +9,8 @@ interface StoreMapViewProps {
   title: string;
 }
 
-const API_KEY = (import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string) || '';
-const hasValidKey = Boolean(API_KEY) && API_KEY.length > 10;
+const API_KEY = (process.env.VITE_GOOGLE_MAPS_API_KEY as string) || '';
+const hasValidKey = Boolean(API_KEY) && API_KEY.length > 8;
 
 const MarkerWithInfo = ({ position, title, subtitle }: { position: google.maps.LatLngLiteral, title: string, subtitle?: string }) => {
   const [open, setOpen] = useState(false);
@@ -39,48 +39,6 @@ const MarkerWithInfo = ({ position, title, subtitle }: { position: google.maps.L
 const StoreMapView: React.FC<StoreMapViewProps> = ({ stores, title }) => {
   const storesWithLocation = stores.filter(s => s.location);
 
-  if (!hasValidKey) {
-    return (
-      <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
-        <h3 className="text-sm font-black uppercase tracking-widest text-slate-400 flex items-center gap-2 mb-6">
-          <MapPin size={16} className="text-blue-600" />
-          {title} (Vista Referencial)
-        </h3>
-        <div className="aspect-[16/9] w-full bg-slate-200 rounded-3xl relative overflow-hidden group shadow-inner border border-slate-300">
-          <img 
-            src="https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&q=80&w=1400" 
-            className="w-full h-full object-cover opacity-50 grayscale"
-            alt="Map Preview"
-          />
-          <div className="absolute inset-0 bg-blue-900/10"></div>
-          
-          <div className="absolute top-1/3 left-1/4 animate-bounce">
-            <div className="bg-blue-600 text-white p-2 rounded-full shadow-lg border-2 border-white"><Store size={14} /></div>
-          </div>
-          <div className="absolute top-1/2 left-1/2 animate-bounce flex flex-col items-center">
-            <div className="bg-orange-500 text-white p-2 rounded-full shadow-lg border-2 border-white"><Store size={14} /></div>
-            <div className="bg-white px-2 py-1 rounded-[4px] text-[7px] font-black mt-1 shadow-sm uppercase">Tambo San Borja</div>
-          </div>
-          <div className="absolute bottom-1/4 right-1/3 animate-bounce">
-            <div className="bg-emerald-600 text-white p-2 rounded-full shadow-lg border-2 border-white"><Store size={14} /></div>
-          </div>
-
-          <div className="absolute inset-0 flex items-center justify-center bg-white/40 backdrop-blur-[1px]">
-            <div className="bg-white p-6 rounded-3xl shadow-2xl text-center border border-slate-100 max-w-xs mx-4">
-              <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-3 mx-auto">
-                <MapIcon size={24} />
-              </div>
-              <h2 className="text-sm font-black uppercase text-slate-900 mb-1 leading-tight">Configuración de Mapa</h2>
-              <p className="text-[9px] text-slate-500 uppercase font-bold leading-relaxed px-2">
-                Instala tu Google Maps Key en Secrets para activar GPS. Mostrando vista previa de San Borja.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   const defaultCenter = storesWithLocation.length > 0 
     ? { lat: storesWithLocation[0].location!.lat, lng: storesWithLocation[0].location!.lng }
     : { lat: -12.0464, lng: -77.0428 }; // Lima default
@@ -93,29 +51,41 @@ const StoreMapView: React.FC<StoreMapViewProps> = ({ stores, title }) => {
             <MapPin size={16} className="text-blue-600" />
             {title}
           </h3>
+          {!hasValidKey && (
+             <span className="text-[8px] font-black uppercase bg-amber-100 text-amber-600 px-2 py-1 rounded-full animate-pulse">API KEY MISSING</span>
+          )}
         </div>
 
         <div className="aspect-[16/9] w-full bg-slate-100 rounded-3xl relative overflow-hidden border border-slate-200 shadow-inner">
-          <APIProvider apiKey={API_KEY} version="weekly">
-            <Map
-              defaultCenter={defaultCenter}
-              defaultZoom={13}
-              mapId="DEMO_MAP_ID"
-              internalUsageAttributionIds={['gmp_mcp_codeassist_v1_aistudio']}
-              style={{ width: '100%', height: '100%' }}
-              disableDefaultUI={true}
-              zoomControl={true}
-            >
-              {storesWithLocation.map((s, idx) => (
-                <MarkerWithInfo 
-                  key={idx} 
-                  position={s.location!} 
-                  title={'storeName' in s ? s.storeName : s.name}
-                  subtitle={'address' in s ? s.address : undefined}
-                />
-              ))}
-            </Map>
-          </APIProvider>
+          {hasValidKey ? (
+            <APIProvider apiKey={API_KEY} version="weekly">
+              <Map
+                defaultCenter={defaultCenter}
+                defaultZoom={13}
+                mapId="DEMO_MAP_ID"
+                internalUsageAttributionIds={['gmp_mcp_codeassist_v1_aistudio']}
+                style={{ width: '100%', height: '100%' }}
+                disableDefaultUI={true}
+                zoomControl={true}
+              >
+                {storesWithLocation.map((s, idx) => (
+                  <MarkerWithInfo 
+                    key={idx} 
+                    position={s.location!} 
+                    title={'storeName' in s ? s.storeName : s.name}
+                    subtitle={'address' in s ? s.address : undefined}
+                  />
+                ))}
+              </Map>
+            </APIProvider>
+          ) : (
+            <div className="flex flex-col items-center justify-center h-full p-8 text-center bg-slate-50">
+              <MapIcon size={40} className="text-slate-300 mb-4" />
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest max-w-[200px]">
+                Google Maps API Key no detectada. Por favor configure GOOGLE_MAPS_PLATFORM_KEY en los Secrets.
+              </p>
+            </div>
+          )}
         </div>
 
         <div className="mt-6 space-y-2">
